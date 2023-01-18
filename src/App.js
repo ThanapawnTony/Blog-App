@@ -1,13 +1,11 @@
-import Header from './Header';
-import Nav from './Nav';
-import Footer from './Footer';
 import Home from './Home';
 import NewPost from './NewPost';
 import PostPage from './PostPage';
 import About from './About';
 import Missing from './Missing';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import Layout from './Layout';
 
 function App() {
 
@@ -41,24 +39,20 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
 
   return (
-    <div className="App">
-      <Header title="ReactJS Blog" />
-      <Nav search={search} setSearch={setSearch} />
-      <Switch>
-        <Route exact path="/">
-          <Home posts={posts} />
+      <Routes>
+        <Route path="/" element={<Layout 
+          search={search}
+          setSearch={setSearch}
+        />}>
+          <Route index element={<Home posts={searchResults} />} />
+          <Route path='post'>
+            <Route index element={<NewPost />} />
+            <Route path=":id" element={<PostPage />} />
+          </Route>
+          <Route path="about" element={<About />} />
+          <Route path="*" component={<Missing />} />
         </Route>
-        <Route exact path="/post">
-          <NewPost />
-        </Route>
-        <Route path="/post/:id">
-          <PostPage />
-        </Route>
-        <Route path="/about" component={About} />
-        <Route path="*" component={Missing} />
-      </Switch>
-      <Footer />
-    </div>
+      </Routes>
   );
 }
 
