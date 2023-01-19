@@ -3,15 +3,15 @@ import Feed from './Feed'
 
 const Home = ({ posts }) => {
   return (
-    <main className='Home'> 
-        {posts.length ? (
-          <Feed posts={posts} />
-        ) : (
-          <p style={{ marginTop: "2rem" }}>
-            No post to dsplay
-          </p>
-        )}
-    </main>
+      <main className="Home">
+          {posts.length ? (
+              <Feed posts={posts} />
+          ) : (
+              <p style={{ marginTop: "2rem" }}>
+                  No posts to display.
+              </p>
+          )}
+      </main>
   )
 }
 

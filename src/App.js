@@ -1,11 +1,11 @@
 import Home from './Home';
+import Layout from './Layout';
 import NewPost from './NewPost';
 import PostPage from './PostPage';
 import About from './About';
 import Missing from './Missing';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Layout from './Layout';
 
 function App() {
 
@@ -34,11 +34,15 @@ function App() {
       datetime: "Jan 22, 2001 06:00:00 AM",
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!"
     }
-  ])
+  ]);
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const navigate = useNavigate();
+
   const handleDelete = (id) => {
-    
+    const postsList = posts.filter(post => post.id !== id);
+    setPosts(postsList);
+    navigate('/');
   }
 
   return (
