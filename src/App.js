@@ -37,7 +37,13 @@ function App() {
   ]);
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [postTitle, setPostTitle] = useState('');
+  const [postBody, setPostBody] = useState('');
   const navigate = useNavigate();
+
+  const handleSubmit = () => {
+
+  }
 
   const handleDelete = (id) => {
     const postsList = posts.filter(post => post.id !== id);
@@ -53,7 +59,7 @@ function App() {
         />}>
           <Route index element={<Home posts={searchResults} />} />
           <Route path='post'>
-            <Route index element={<NewPost />} />
+            <Route index element={<NewPost handleSubmit={handleSubmit} postTitle={postTitle} setPostTitle={setPostTitle} postBody={postBody} setPostBody={setPostBody} />} />
             <Route path=":id" element={<PostPage posts={posts} handleDelete={handleDelete} />} />
           </Route>
           <Route path="about" element={<About />} />
