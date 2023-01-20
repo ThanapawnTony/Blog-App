@@ -78,7 +78,7 @@ function App() {
             <Route path=":id" element={<PostPage posts={posts} handleDelete={handleDelete} />} />
           </Route>
           <Route path="about" element={<About />} />
-          <Route path="*" element={<Missing />} />
+          <Route path="*" eleme={<Missing />} />
         </Route>
       </Routes>
   );

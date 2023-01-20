@@ -70,25 +70,6 @@ body {
   align-items: flex-start;
 }
 
-.searchForm {
-  width: 80%;
-  padding: 1rem 0 0 0.75rem;
-}
-
-.searchForm input[type="text"] {
-  font-family: 'Open Sans', sans-serif;
-  width: 100%;
-  min-height: 48px;
-  font-size: 1rem;
-  padding: 0.25rem;
-  border-radius: 0.25rem;
-  outline: none;
-}
-
-.searchForm label {
-  position: absolute;
-  left: -99999px;
-}
 
 .Nav ul {
   color: #fff;
@@ -251,6 +232,7 @@ body {
   .searchForm {
     width: 50%;
     padding: .5rem 0;
+    margin-bottom: 10px;
   }
  
   .searchForm input[type="text"] {
@@ -268,4 +250,112 @@ body {
     font-size: 3rem;
   }
 
+}
+
+@media only screen and (min-width: 330px) {
+  .searchForm {
+    top: 6px;
+    left: 5px;
+  }
+}
+
+
+.searchForm {
+  --input-text-color: #fff;
+  --input-bg-color: #283542;
+  --focus-input-bg-color: transparent;
+  --text-color: #949faa;
+  --active-color: #1b9bee;
+  --width-of-input: 250px;
+  --inline-padding-of-input: 1.5em;
+  --gap: 0.9rem;
+}
+
+.searchForm {
+  font-size: 1.2rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  width: var(--width-of-input);
+  position: relative;
+  isolation: isolate;
+  font-weight: 500;
+  height: 2em;
+}
+
+.fancy-bg {
+  position: absolute;
+  width: 100%;
+  inset: 0;
+  background: var(--input-bg-color);
+  border-radius: 30px;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+label {
+  width: 100%;
+  padding: 0.9em;
+  height: 40px;
+  padding-inline: var(--inline-padding-of-input);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search {
+  position: absolute;
+}
+
+.search {
+  fill: var(--text-color);
+  left: 1em;
+}
+
+svg {
+  width: 18px;
+  display: block;
+}
+
+
+.input {
+  color: var(--input-text-color);
+  width: 100%;
+  margin-inline: min(2em,calc(var(--inline-padding-of-input) + var(--gap)));
+  background: none;
+  border: none;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--text-color);
+  right: 1em;
+}
+
+/* input background change in focus */
+.input:focus ~ .fancy-bg {
+  border: 1px solid var(--active-color);
+  background: var(--focus-input-bg-color);
+}
+/* search icon color change in focus */
+.input:focus ~ .search {
+  fill: var(--active-color);
+}
+/* showing close button when typing */
+.input:valid ~ .close-btn {
+  opacity: 1;
+  visibility: visible;
+}
+/* this is for the default background in input,when selecting autofill options -- you can remove this code if you do not want to override the browser style.  */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+  -webkit-transition-delay: 9999s;
 }
