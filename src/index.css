@@ -171,15 +171,28 @@ body {
   height: 100px;
 }
 
+
 .newPostForm button {
-  margin-top: 1rem;
-  height: 48px;
-  min-width: 48px;
-  border-radius: 10px;
-  padding: 0.5rem;
-  font-size: 1rem;
-  cursor: pointer;
-}
+  border: 2px solid #24b4fb;
+  background-color: #24b4fb;
+  border-radius: 0.9em;
+  padding: 0.8em 1.2em 0.8em 1em;
+  transition: all ease-in-out 0.2s;
+  font-size: 16px;
+  margin-top: 1.5em;
+ }
+ 
+ .newPostForm button span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: 600;
+ }
+ 
+.newPostForm button:hover {
+  background-color: #0071e2;
+ }
 
 .Missing h2, .PostPage h2, 
 .Missing p, .PostPage p {
