@@ -8,6 +8,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import api from './api/posts';
+import EditPost from './EditPost';
 
 function App() {
 
@@ -16,6 +17,8 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [postTitle, setPostTitle] = useState('');
   const [postBody, setPostBody] = useState('');
+  const [editTitle, setEditTitle] = useState('');
+  const [editBody, setEditBody] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,22 +47,46 @@ function App() {
     setSearchResults(filteredResults.reverse());
   },[posts, search])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const id = posts.length ? posts[posts.length -1].id + 1 : 1;
     const datetime = format(new Date(), 'MMMM dd, yyyy pp');
     const newPost = { id, title: postTitle, datetime, body: postBody };
-    const allPosts = [ ...posts, newPost ];
-    setPosts(allPosts);
-    setPostTitle('');
-    setPostBody('');
-    navigate('/');
+    try {
+      const response = await api.post('/posts', newPost);
+      const allPosts = [ ...posts, response.data ];
+      setPosts(allPosts);
+      setPostTitle('');
+      setPostBody('');
+      navigate('/');
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
+    }
   }
 
-  const handleDelete = (id) => {
-    const postsList = posts.filter(post => post.id !== id);
-    setPosts(postsList);
-    navigate('/');
+  const handleEdit = async (id) => {
+    const datetime = format(new Date(), 'MMMM dd, yyyy pp');
+    const updatedPost = { id, title: editTitle, datetime, body: editBody };
+    try {
+      const response = await api.put(`/post/${id}`, updatedPost);
+      setPosts(posts.map(post => post.id === id ? { ...response.data } : post));
+      setEditTitle('');
+      setEditBody('');
+      navigate('/');
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
+    }
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`./posts/${id}`);
+      const postsList = posts.filter(post => post.id !== id);
+      setPosts(postsList);
+      navigate('/');
+    } catch (err) {
+      console.log(`Error: ${err.message}`);
+    }
   }
 
   return (
@@ -73,6 +100,7 @@ function App() {
             <Route index element={<NewPost handleSubmit={handleSubmit} postTitle={postTitle} setPostTitle={setPostTitle} postBody={postBody} setPostBody={setPostBody} />} />
             <Route path=":id" element={<PostPage posts={posts} handleDelete={handleDelete} />} />
           </Route>
+          <Route index path='edit/:id' element={<EditPost posts={posts} handleEdit={handleEdit} editTitle={editTitle} setEditTitle={setEditTitle} editBody={editBody} setEditBody={setEditBody} />} />
           <Route path="about" element={<About />} />
           <Route path="*" eleme={<Missing />} />
         </Route>
